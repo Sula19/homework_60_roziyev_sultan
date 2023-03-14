@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block menu %}
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{% url 'basket' %}">
+            <button type="button" class="btn btn-light">Basket</button>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{% url 'add_product' %}">
+            <button type="button" class="btn btn-light">Add Product</button>
+        </a>
+    </li>
+{% endblock %}
+{% block content %}
+    <form action="" method="get">
+        {% include 'partial/search.html' with button='Найти' %}
+    </form><br>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for product in products %}
+            {% if product.remainder > 0 %}
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="{{ product.img }}" class="image" alt="img">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ product.name }}</h4>
+                            <p class="card-text">{{ product.get_category_display }}</p>
+                            <p class="card-text">Price - {{ product.price }}$</p>
+                            <a href="{% url 'detail_product' product.pk %}" class="btn btn-info">More...</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <h1 style="color: white">Товары не найдены</h1>
+        {% endfor %}
+    </div><br>
+    <div class="pagination">
+    <span class="step-links">
+        <a href="?{% if query %}{{ query }}&{% endif %}page=1">&laquo;В начало</a>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+        {% else %}
+            <span class="page-disabled">Назад</span>
+        {% endif %}
+        <form class="current-page" method="get">
+            <label for="page" style="color: white">
+                {% if search %}<input type="hidden" name="search" value="{{ search }}">{% endif %}
+                Страница <input type="text" name="page" id="page" value="{{ page_obj.number }}">
+                из {{ page_obj.paginator.num_pages }}.
+            </label>
+        </form>
+        {% if page_obj.has_next %}
+            <a href="?{% if query %}{{ query }}&{% endif %}page={{ page_obj.next_page_number }}">Далее</a>
+        {% else %}
+            <span class="page-disabled">Далее</span>
+        {% endif %}
+        <a href="?{% if query %}{{ query }}&{% endif %}page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
+    </span>
+    </div>
+{% endblock %}
