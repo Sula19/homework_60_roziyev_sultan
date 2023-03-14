@@ -1,8 +1,8 @@
 from django.views.generic import DeleteView, View, TemplateView
-
 from webapp.forms import OrderForm
 from webapp.models import Product, Basket
 from django.shortcuts import get_object_or_404, redirect, reverse
+from django.db.models import Sum, FloatField, IntegerField
 
 
 class AddToBasket(View):
@@ -35,6 +35,9 @@ class IndexBasket(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['baskets'] = Basket.objects.all()
+        product = Product.objects.all()
+        for p in product:
+            context['total'] = Product.objects.aggregate(count=Sum(p.price))
         context['form'] = OrderForm
         return context
 

@@ -26,19 +26,21 @@
                 </td>
             </tr>
             </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="4">Total:</td>
+                {% for v in total.values %}
+                    <td>{{ total }}</td>
+                {% endfor %}
+            </tr>
+            </tfoot>
         {% endfor %}
-        {#        <tfoot>#}
-        {#                <tr>#}
-        {#                    <td colspan="4">Total:</td>#}
-        {#                    <td></td>#}
-        {#                </tr>#}
-        {#        </tfoot>#}
     </table><br>
     <form action="{% url 'order' %}" method="post">
-            <div class="row" style="justify-content: center">
-                <div class="col-5">
-                    {% include 'partial/partial_order.html' with button='Оформить заказ' %}
-                </div>
+        <div class="row" style="justify-content: center">
+            <div class="col-5">
+                {% include 'partial/partial_order.html' with button='Оформить заказ' %}
             </div>
-        </form>
+        </div>
+    </form>
 {% endblock %}
