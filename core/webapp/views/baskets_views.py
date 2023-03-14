@@ -39,13 +39,13 @@ class IndexBasket(TemplateView):
         baskets = Basket.objects.all()
         for basket in baskets:
             ba = Basket.objects.aggregate(count=Sum(basket.qty))
+            for k, v in ba.items():
+                pass
         for p in product:
             pr = Product.objects.aggregate(count=Sum(p.price))
-        for k, v in ba.items():
-            q = v
-        for i, j in pr.items():
-            w = j
-        context['total'] = q * w
+            for i, j in pr.items():
+                pass
+        context['total'] = v * j
         context['form'] = OrderForm
         return context
 
