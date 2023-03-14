@@ -27,14 +27,12 @@
             </tr>
             </tbody>
             <tfoot>
-            <tr>
-                <td colspan="4">Total:</td>
-                {% for v in total.values %}
-                    <td>{{ total }}</td>
-                {% endfor %}
-            </tr>
-            </tfoot>
         {% endfor %}
+        <tr>
+            <td colspan="4">Total:</td>
+            <td>{{ total }}</td>
+        </tr>
+        </tfoot>
     </table><br>
     <form action="{% url 'order' %}" method="post">
         <div class="row" style="justify-content: center">
