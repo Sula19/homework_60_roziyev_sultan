@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Basket{% endblock %}
+{% block content %}
+    <table>
+        {% for basket in baskets %}
+            <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ basket.product.name }}</td>
+                <td>${{ basket.product.price }}</td>
+                <td>{{ basket.qty }}</td>
+                <td>${{ basket.summary }}</td>
+                <td>
+                    <form action="{% url 'delete_basket' basket.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        {% endfor %}
+        {#        <tfoot>#}
+        {#                <tr>#}
+        {#                    <td colspan="4">Total:</td>#}
+        {#                    <td></td>#}
+        {#                </tr>#}
+        {#        </tfoot>#}
+    </table><br>
+    <form action="{% url 'order' %}" method="post">
+            <div class="row" style="justify-content: center">
+                <div class="col-5">
+                    {% include 'partial/partial_order.html' with button='Оформить заказ' %}
+                </div>
+            </div>
+        </form>
+{% endblock %}

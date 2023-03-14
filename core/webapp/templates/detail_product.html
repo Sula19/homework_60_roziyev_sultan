@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Detail{% endblock %}
+{% block menu %}
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{% url 'update_product' product.pk %}">
+            <button type="button" class="btn btn-light">Update</button>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{% url 'delete_product' product.pk %}">
+            <button type="button" class="btn btn-light">Delete</button>
+        </a>
+    </li>
+{% endblock %}
+{% block content %}
+    <div class="card" style="max-width: 100%;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ product.img }}" class="img-fluid rounded-start" alt="img">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h1 class="card-title">{{ product.name }}</h1><br>
+                    <h4 class="card-title">{{ product.description }}</h4><br>
+                    <h4 class="card-title">Остаток - {{ product.remainder }}</h4><br>
+                    <h4 class="card-title">Ценв - {{ product.price }}</h4><br>
+                    <h4 class="card-title">Категория - {{ product.get_category_display }}</h4>
+                </div>
+            </div>
+        </div>
+    </div><br>
+        <form action="{% url 'add_basket' product.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-light">Add to Basket</button>
+        </form>
+{#    <a href="{% url 'add_basket' product.pk %}">#}
+{#        <button type="submit" class="btn btn-success">Delete</button>#}
+{#    </a>#}
+{% endblock %}
